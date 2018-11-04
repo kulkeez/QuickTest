@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -42,9 +43,14 @@ public class ParallelFileReader {
 			//TODO: hard-coded, read file folder as input
 			logger.info("Reading the following files in folder: " + FOLDER_OPTION);
 			
+			RejectedExecutionHandlerImpl rejectionHandler = new RejectedExecutionHandlerImpl();
+			
+			int cpuCoresCount = Runtime.getRuntime().availableProcessors();
+			logger.info("CPU cores available on this machine: " + cpuCoresCount);
+			
 			// Creating a fixed size thread pool of 15 worker threads. 
-			ExecutorService fixedExecutorService = Executors.newFixedThreadPool(POOL_SIZE);
-			logger.debug("Creating a fixed size thread pool of " + POOL_SIZE + "  worker threads.");
+			ExecutorService fixedExecutorService = Executors.newFixedThreadPool(cpuCoresCount);
+			logger.debug("Creating a fixed size thread pool of " + cpuCoresCount + " worker threads.");
 			
 			ProcessFileThread fileProcessor = null;
 			File dir = new File(FOLDER_OPTION);
