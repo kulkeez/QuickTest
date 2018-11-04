@@ -46,8 +46,11 @@ public class ParallelFileReader {
 			RejectedExecutionHandlerImpl rejectionHandler = new RejectedExecutionHandlerImpl();
 			
 			int cpuCoresCount = Runtime.getRuntime().availableProcessors();
+            logger.info("File Separator = " + System.getProperty("file.separator"));
+            logger.info("Temp Directory = " +  new File(System.getProperty("java.io.tmpdir")).getPath());
+            logger.info("User Home Directory = " +  new File(System.getProperty("user.home")).getPath());
 			logger.info("CPU cores available on this machine: " + cpuCoresCount);
-			
+            
 			// Creating a fixed size thread pool of 15 worker threads. 
 			ExecutorService fixedExecutorService = Executors.newFixedThreadPool(cpuCoresCount);
 			logger.debug("Creating a fixed size thread pool of " + cpuCoresCount + " worker threads.");
